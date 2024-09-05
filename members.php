@@ -1,4 +1,5 @@
 <?php include('db_connect.php');?>
+<script src="datatables-config.js"></script>
 
 <div class="container-fluid">
 <style>
