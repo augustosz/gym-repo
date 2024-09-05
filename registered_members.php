@@ -121,14 +121,14 @@
 		$('table').dataTable()
 	})
 	$('#new_member').click(function(){
-		uni_modal("<i class='fa fa-plus'></i> New Membership Plan","manage_membership.php",'')
+		uni_modal("<i class='fa fa-plus'></i> Nuevo Plan","manage_membership.php",'')
 	})
 	$('.view_member').click(function(){
 		uni_modal("<i class='fa fa-address-card'></i> Detalles de membresia","view_pdetails.php?id="+$(this).attr('data-id'),'')
 		
 	})
 	$('.edit_member').click(function(){
-		uni_modal("<i class='fa fa-edit'></i> Manage Member Details","manage_member.php?id="+$(this).attr('data-id'),'mid-large')
+		uni_modal("<i class='fa fa-edit'></i> ","manage_member.php?id="+$(this).attr('data-id'),'mid-large')
 		
 	})
 	$('.delete_member').click(function(){

@@ -50,7 +50,7 @@
                                     <div class="card-body text-white">
                                         <span class="float-right summary_icon"><i class="fa fa-users"></i></span>
                                         <h4><b>
-                                            <?php echo $conn->query("SELECT * FROM registration_info where status = 1")->num_rows; ?>
+                                            <?php echo $conn->query("SELECT * FROM members")->num_rows; ?>
                                         </b></h4>
                                         <p><b>Cantidad de miembros</b></p>
                                     </div>

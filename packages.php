@@ -100,6 +100,9 @@
 	td{
 		vertical-align: middle !important;
 	}
+  .edit_package {
+    margin-bottom: 5px;
+}
 </style>
 <script>
 	function _reset(){

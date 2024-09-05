@@ -15,9 +15,9 @@
 			<div class="col-md-12">
 				<div class="card">
 					<div class="card-header">
-						<b>List of Events</b>
+						<b>Lista de eventos</b>
 						<span class="float:right"><a class="btn btn-primary btn-block btn-sm col-sm-2 float-right" href="index.php?page=manage_event" id="new_event">
-					<i class="fa fa-plus"></i> New Entry
+					<i class="fa fa-plus"></i> Nueva entrada
 				</a></span>
 					</div>
 					<div class="card-body">

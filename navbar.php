@@ -3,17 +3,14 @@
 	.collapse a{
 		text-indent:10px;
 	}
-	nav#sidebar{
-		background: url(assets/uploads/<?php echo $_SESSION['system']['cover_img'] ?>) !important
-	}
 </style>
 
-<nav id="sidebar" class='mx-lt-5 bg-dark' >
+<nav id="sidebar" class='mx-lt-5 bg' style="background-color: #606470" >
 		
-		<div class="sidebar-list">
+		<div class="sidebar-list bg-white"">
 				<a href="index.php?page=home" class="nav-item nav-home"><span class='icon-field'><i class="fa fa-home"></i></span> Inicio</a>
 				<a href="index.php?page=members" class="nav-item nav-members"><span class='icon-field'><i class="fa fa-user-friends"></i></span> Miembros</a>
-				<a href="index.php?page=registered_members" class="nav-item nav-registered_members"><span class='icon-field'><i class="fa fa-id-card"></i></span> Membresia</a>
+				<a href="index.php?page=registered_members" class="nav-item nav-registered_members"><span class='icon-field'><i class="fa fa-credit-card"></i></span> Pagos</a>
 
 				<?php if($_SESSION['login_type'] == 1): ?>
 

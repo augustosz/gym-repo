@@ -94,6 +94,10 @@
 
 </div>
 <style>
+
+.edit_plan{
+    margin-bottom: 5px;
+}
 	
 	td{
 		vertical-align: middle !important;
@@ -117,14 +121,14 @@
 		    type: 'POST',
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully added",'success')
+					alert_toast("Datos subidos con éxito",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)
 
-				}
-				else if(resp==2){
-					alert_toast("Data successfully updated",'success')
+				} 
+				else if(resp==2){ 
+					alert_toast("Datos actualizados con éxito",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

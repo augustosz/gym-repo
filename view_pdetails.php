@@ -29,7 +29,7 @@ if(isset($_GET['id'])){
 			<button class="btn float-right btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
 			<button class="btn float-right btn-primary mr-2" type="button" id="payment">Pagos</button>
 			<?php if(strtotime(date('Y-m-d')) > strtotime($end_date)): ?>
-			<button class="btn float-right btn-primary mr-2" type="button" id="renew">Renew</button>
+			<button class="btn float-right btn-primary mr-2" type="button" id="renew">Renovar</button>
 			<?php endif; ?>
 			<button class="btn float-right btn-primary mr-2" type="button" id="end">Finalizar plan</button>
 		</div>
@@ -58,9 +58,9 @@ if(isset($_GET['id'])){
 			data:{rid:'<?php echo $id ?>'},
 			success:function(resp){
 				if(resp > 0){
-					alert_toast('Membership Successfully renewed','success')
+					alert_toast('Membresia renovada con éxito','success')
 					end_load()
-					uni_modal("<i class='fa fa-address-card'></i> Member Plan Details","view_pdetails.php?id="+resp,'')
+					uni_modal("<i class='fa fa-address-card'></i> Detalles de membresia","view_pdetails.php?id="+resp,'')
 				}
 			}
 		})
@@ -81,4 +81,4 @@ if(isset($_GET['id'])){
 			}
 		})
 	})
-</script>
+</script>	

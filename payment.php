@@ -98,9 +98,9 @@ if(isset($_GET['rid'])){
 			data:$(this).serialize(),
 			success:function(resp){
 				if(resp == 1){
-					alert_toast('Payment Successfully saved','success')
-					end_load()
-					uni_modal('Payments','payment.php?rid=<?php echo $id ?>','large')
+					alert_toast('Pago agregado con éxito','success')
+					end_load() 
+					uni_modal('Payment','payment.php?rid=<?php echo $id ?>','large')
 				}
 			}
 		})

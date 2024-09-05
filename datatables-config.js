@@ -19,8 +19,6 @@ $(document).ready(function(){
               "next": "Siguiente",
               "previous": "Anterior"
           },
-          "padding":true,
-          "searching":true
       }
   });
 });

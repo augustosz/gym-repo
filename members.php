@@ -13,6 +13,7 @@
   transform: scale(1.5);
   padding: 10px;
 }
+
 </style>
 	<div class="col-lg-12">
 		<div class="row mb-4 mt-4">
@@ -80,9 +81,9 @@
 										 
 									</td>
 									<td class="text-center">
-										<button class="btn btn-sm btn-primary view_member" type="button" data-id="<?php echo $row['id'] ?>" >Ver</button>
-										<button class="btn btn-sm btn-primary edit_member" type="button" data-id="<?php echo $row['id'] ?>" >Editar</button>
-										<button class="btn btn-sm btn-danger delete_member" type="button" data-id="<?php echo $row['id'] ?>">Eliminar</button>
+										<button class="btn btn-sm btn-primary view_member btn-spacing" type="button" data-id="<?php echo $row['id'] ?>" >Ver</button>
+										<button class="btn btn-sm btn-primary edit_member btn-spacing" type="button" data-id="<?php echo $row['id'] ?>" >Editar</button>
+										<button class="btn btn-sm btn-danger delete_member btn-spacing" type="button" data-id="<?php echo $row['id'] ?>">Eliminar</button>
 									</td>
 								</tr>
 								<?php endwhile; ?>
@@ -108,16 +109,20 @@
 		max-width:100px;
 		max-height:150px;
 	}
+  .view_member, .edit_member{
+    margin-right: 5px;
+    margin-bottom: 7px;
+}
 </style>
 <script>
 	$(document).ready(function(){
 		$('table').dataTable()
 	})
 	$('#new_member').click(function(){
-		uni_modal("<i class='fa fa-plus'></i> New Member","manage_member.php",'mid-large')
+		uni_modal("<i class='fa fa-plus'></i> Nuevo miembro","manage_member.php",'mid-large')
 	})
 	$('.view_member').click(function(){
-		uni_modal("<i class='fa fa-id-card'></i> Member Details","view_member.php?id="+$(this).attr('data-id'),'large')
+		uni_modal("<i class='fa fa-id-card'></i> Detalles de miembros","view_member.php?id="+$(this).attr('data-id'),'large')
 		
 	})
 	$('.edit_member').click(function(){
@@ -125,7 +130,7 @@
 	
 	})
 	$('.delete_member').click(function(){
-		_conf("Are you sure to delete this topic?","delete_member",[$(this).attr('data-id')],'mid-large')
+		_conf("¿Seguro que quieres eliminar?","delete_member",[$(this).attr('data-id')],'mid-large')
 	})
 
 	function delete_member($id){

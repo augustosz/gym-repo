@@ -12,7 +12,7 @@ if(isset($_GET['id'])){
 	<form action="" id="manage-member">
 		<div id="msg"></div>
 			<div class="form-group">
-				<label class="control-label">Membresia</label>
+				<label class="control-label">Miembro</label>
 				<select name="member_id" required="required" class="custom-select select2" id="">
 					<option value=""></option>
 					<?php
@@ -64,7 +64,7 @@ if(isset($_GET['id'])){
 
 <script>
 	$('.select2').select2({
-		placeholder:'Select Here',
+		placeholder:'Seleccionar',
 		width:'100%'
 	})
 	$('#manage-member').submit(function(e){

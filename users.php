@@ -70,15 +70,36 @@
 
 </div>
 <script>
-	$('table').dataTable();
+	$('table').dataTable({
+      language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+          "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+              "first": "Primero",
+              "last": "Ultimo",
+              "next": "Siguiente",
+              "previous": "Anterior"
+          },
+      }
+  });
 $('#new_user').click(function(){
-	uni_modal('New User','manage_user.php')
+	uni_modal('Nuevo usuario','manage_user.php')
 })
 $('.edit_user').click(function(){
 	uni_modal('Edit User','manage_user.php?id='+$(this).attr('data-id'))
 })
 $('.delete_user').click(function(){
-		_conf("Are you sure to delete this user?","delete_user",[$(this).attr('data-id')])
+		_conf("¿Seguro que quieres eliminar el usuario?","delete_user",[$(this).attr('data-id')])
 	})
 	function delete_user($id){
 		start_load()
@@ -88,7 +109,7 @@ $('.delete_user').click(function(){
 			data:{id:$id},
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Data successfully deleted",'success')
+					alert_toast("Datos eliminados con exito",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)

@@ -117,7 +117,7 @@
 		    type: 'POST',
 			success:function(resp){
 				if(resp==1){
-					alert_toast("Datos actualizados con exíto",'success')
+					alert_toast("Datos Guardados con exíto",'success')
 					setTimeout(function(){
 						location.reload()
 					},1500)
