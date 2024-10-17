@@ -1,0 +1,53 @@
+Table members {
+  id int [pk, not null]
+  member_id int [not null]
+  firstname varchar(100) [not null]
+  middlename varchar(100) [not null]
+  lastname varchar(100) [not null]
+  gender varchar(20) [not null]
+  contact varchar(100) [not null]
+  address text [not null]
+  email varchar(100) [not null]
+  date_created datetime [not null, default: `current_timestamp()`]
+}
+
+Table packages {
+  id int [pk, not null]
+  package varchar(200) [not null]
+  description text [not null]
+  amount float [not null]
+}
+
+Table payments {
+  id int [pk, not null]
+  registration_id int [not null, ref: > members.id]
+  amount int [not null]
+  remarks text [not null]
+  type tinyint(1) [not null, default: 2, note: '1=registration, 2=monthly payment']
+  date_created datetime [not null, default: `current_timestamp()`]
+}
+
+Table registrations {
+  id int [pk, not null]
+  member_id int [not null, ref: > members.id]
+  package_id int [not null, ref: > packages.id]
+  plan_id int [ref: > plans.id]  // Relación con la tabla plans
+  date_created datetime [not null, default: `current_timestamp()`]
+  status tinyint(1) [not null, default: 1, note: '1=active, 0=inactive']
+}
+
+
+Table plans {
+  id int [pk, not null]
+  plan varchar(200) [not null]
+  description text [not null]
+  amount float [not null]
+}
+
+Table users {
+  id int [pk, not null]
+  username varchar(100) [not null]
+  password varchar(100) [not null]
+  user_type tinyint(1) [not null, default: 2, note: '1=admin, 2=user']
+  date_created datetime [not null, default: `current_timestamp()`]
+}
