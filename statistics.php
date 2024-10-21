@@ -1,139 +1,198 @@
-<?php include('db_connect.php');
+<?php
+include('db_connect.php');
 
+// primera estadística
+$query = "SELECT t1.date_created, t1.amount 
+          FROM payments t1
+          INNER JOIN members t2 ON t1.id = t2.id";
 
+$result = mysqli_query($conn, $query);
 
-?>
-<script src="datatables-config.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
-
-
-?>
-<div class="container-fluid">
-<style>
-	input[type=checkbox]
-{
-  /* Double-sized Checkboxes */
-  -ms-transform: scale(1.5); /* IE */
-  -moz-transform: scale(1.5); /* FF */
-  -webkit-transform: scale(1.5); /* Safari and Chrome */
-  -o-transform: scale(1.5); /* Opera */
-  transform: scale(1.5);
-  padding: 10px;
+$dates = [];
+$amounts = [];
+while ($row = $result->fetch_assoc()) {
+  $dates[] = $row['date_created'];
+  $amounts[] = $row['amount'];
 }
 
-</style>
-	<div class="col-lg-12">
-		<div class="row mb-4 mt-4">
-			<div class="col-md-12">
-				
-			</div>
-		</div>
-		<div class="row">
-			<!-- FORM Panel -->
+$dates_json = json_encode($dates);
+$amounts_json = json_encode($amounts);
 
-			<!-- Table Panel -->
-			<div class="col-md-12">
-				<div class="card">
-					<div class="card-header">
-						<b>Eliga las estadísticas a visualizar</b>
-						<span class="">
+// segunda consulta para ingresos totales por fecha
+$query = "SELECT DATE(date_created) AS payment_date, SUM(amount) AS total_amount 
+          FROM payments 
+          GROUP BY payment_date 
+          ORDER BY payment_date ASC";
 
-				</span>
-					</div>
-					<div class="card-body">
-          <h1>Line Chart using PHP MySQL and Chart JS</h1>       
-			<canvas id="chart" style="width: 100%; height: 65vh; background: #222; border: 1px solid #555652; margin-top: 10px;"></canvas>
+$result = $conn->query($query);
 
-			<script>
-				var ctx = document.getElementById("chart").getContext('2d');
-    			var myChart = new Chart(ctx, {
-        		type: 'line',
-		        data: {
-		            labels: [<?php echo $buildingName; ?>],
-		            datasets: 
-		            [{
-		                label: 'Consumption',
-		                data: [<?php echo $data1; ?>],
-		                bbackgroundColor: 'transparent',
-		                borderColor:'rgba(255,99,132)',
-		                borderWidth: 3
-		            },
+$dates_total = [];
+$amounts_total = [];
 
-		            {
-		            	label: 'Cost',
-		                data: [<?php echo $data2; ?>],
-		                backgroundColor: 'transparent',
-		                borderColor:'rgba(0,255,255)',
-		                borderWidth: 3	
-		            }]
-		        },
-		     
-		        options: {
-		            scales: {scales:{yAxes: [{beginAtZero: false}], xAxes: [{autoskip: true, maxTicketsLimit: 20}]}},
-		            tooltips:{mode: 'index'},
-		            legend:{display: true, position: 'top', labels: {fontColor: 'rgb(255,255,255)', fontSize: 16}}
-		        }
-		    });
-			</script>
-          </div>
-				</div>
-			</div>
-			<!-- Table Panel -->
-		</div>
-	</div>	
-
-</div>
-<style>
-	
-	td{
-		vertical-align: middle !important;
-	}
-	td p{
-		margin: unset
-	}
-	img{
-		max-width:100px;
-		max-height:150px;
-	}
-  .view_member, .edit_member{
-    margin-right: 5px;
-    margin-bottom: 7px;
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $dates_total[] = $row['payment_date'];
+    $amounts_total[] = $row['total_amount'];
+  }
+} else {
+  echo "No se encontraron resultados.";
 }
-</style>
-<script>
-	$(document).ready(function(){
-		$('table').dataTable()
-	})
-	$('#new_member').click(function(){
-		uni_modal("<i class='fa fa-plus'></i> Nuevo miembro","manage_member.php",'mid-large')
-	})
-	$('.view_member').click(function(){
-		uni_modal("<i class='fa fa-id-card'></i> Detalles de miembros","view_member.php?id="+$(this).attr('data-id'),'large')
-		
-	})
-	$('.edit_member').click(function(){
-		uni_modal("<i class='fa fa-edit'></i>  Administrar los detalles de los miembros ","manage_member.php?id="+$(this).attr('data-id'),'mid-large')
-	
-	})
-	$('.delete_member').click(function(){
-		_conf("¿Seguro que quieres eliminar?","delete_member",[$(this).attr('data-id')],'mid-large')
-	})
 
-	function delete_member($id){
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=delete_member',
-			method:'POST',
-			data:{id:$id},
-			success:function(resp){
-				if(resp==1){
-					alert_toast("Datos eliminados con exito",'success')
-					setTimeout(function(){
-						location.reload()
-					},1500)
+// nueva consulta para ingresos totales por mes
+$query_month = "SELECT DATE_FORMAT(date_created, '%Y-%m') AS payment_month, SUM(amount) AS total_amount 
+                FROM payments 
+                GROUP BY payment_month 
+                ORDER BY payment_month ASC";
 
-				}
-			}
-		})
-	}
-</script>
+$result_month = $conn->query($query_month);
+
+$months_total = [];
+$amounts_month_total = [];
+
+if ($result_month->num_rows > 0) {
+  while ($row = $result_month->fetch_assoc()) {
+    $months_total[] = $row['payment_month'];
+    $amounts_month_total[] = $row['total_amount'];
+  }
+} else {
+  echo "No se encontraron resultados para los ingresos totales por mes.";
+}
+
+$months_total_json = json_encode($months_total);
+$amounts_month_total_json = json_encode($amounts_month_total);
+
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingresos Totales por Fecha</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
+</head>
+
+<body>
+
+  <canvas id="myChart1"></canvas>
+  <canvas id="myChart2"></canvas>
+  <canvas id="myChart3"></canvas> <!-- Nuevo gráfico para ingresos totales por mes -->
+
+  <script>
+    // Gráfico 1: Monto por transacción (primer gráfico)
+    const dates = <?php echo $dates_json; ?>;
+    const amounts = <?php echo $amounts_json; ?>;
+
+    const ctx1 = document.getElementById('myChart1').getContext('2d');
+    const myChart1 = new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: dates, // Las fechas como etiquetas
+        datasets: [{
+          label: 'Monto por Transacción',
+          data: amounts, // Los montos como datos
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'time', // Escala de tiempo para el eje X
+            time: {
+              unit: 'day'
+            }
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Gráfico 2: Ingresos Totales por Fecha (segundo gráfico)
+    const dates_total = <?php echo json_encode($dates_total); ?>;
+    const amounts_total = <?php echo json_encode($amounts_total); ?>;
+
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+    const myChart2 = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: dates_total, // Fechas de los pagos
+        datasets: [{
+          label: 'Ingresos Totales',
+          data: amounts_total, // Montos de los pagos
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 2,
+          fill: false, // No rellenar debajo de la línea
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Fecha'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Monto Total'
+            },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Gráfico 3: Ingresos Totales por Mes (nuevo gráfico)
+    const months_total = <?php echo $months_total_json; ?>;
+    const amounts_month_total = <?php echo $amounts_month_total_json; ?>;
+
+    const ctx3 = document.getElementById('myChart3').getContext('2d');
+    const myChart3 = new Chart(ctx3, {
+      type: 'bar',
+      data: {
+        labels: months_total, // Meses de los pagos
+        datasets: [{
+          label: 'Ingresos Totales por Mes',
+          data: amounts_month_total, // Montos totales por mes
+          backgroundColor: 'rgba(153, 102, 255, 0.2)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Mes'
+            },
+            ticks: {
+              callback: function(value, index, values) {
+                return value.substr(0, 7); // Mostrar solo año-mes
+              }
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Monto Total'
+            },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+
+</body>
+
+</html>
