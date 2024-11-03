@@ -61,8 +61,9 @@ if(isset($_GET['rid'])){
 					<textarea class="form-control" name="remarks"></textarea>
 				</div>
 				<div class="form-group">
-					<button class="btn btn-primary">Guardar pago</button>
-				</div>
+                 <button class="btn btn-primary">Guardar pago</button>
+                 <button type="button" class="btn btn-success" id="generate_invoice">Factura</button>
+                 </div>
 			</form>
 		</div>
 	</div>
@@ -89,20 +90,25 @@ if(isset($_GET['rid'])){
 	}
 </style>
 <script>
-	$('#manage_payment').submit(function(e){
-		e.preventDefault()
-		start_load()
-		$.ajax({
-			url:'ajax.php?action=save_payment',
-			method:'POST',
-			data:$(this).serialize(),
-			success:function(resp){
-				if(resp == 1){
-					alert_toast('Pago agregado con éxito','success')
-					end_load() 
-					uni_modal('Payment','payment.php?rid=<?php echo $id ?>','large')
-				}
-			}
-		})
-	})
+    $('#manage_payment').submit(function(e){
+        e.preventDefault();
+        start_load();
+        $.ajax({
+            url: 'ajax.php?action=save_payment',
+            method: 'POST',
+            data: $(this).serialize(),
+            success: function(resp){
+                if(resp == 1){
+                    alert_toast('Pago agregado con éxito', 'success');
+                    end_load();
+                    uni_modal('Payment', 'payment.php?rid=<?php echo $id ?>', 'large');
+                }
+            }
+        });
+    });
+
+    // Código para generar la factura
+    $('#generate_invoice').click(function(){
+        window.open('generate_invoice.php?registration_id=<?php echo $id ?>', '_blank');
+    });
 </script>

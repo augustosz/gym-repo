@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 21, 2020 at 09:52 AM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.2.33
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 03-11-2024 a las 18:16:15
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,26 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gym_db`
+-- Base de datos: `gym_db`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `members`
+-- Estructura de tabla para la tabla `invoices`
+--
+
+CREATE TABLE `invoices` (
+  `invoice_id` int(11) NOT NULL,
+  `registration_id` int(11) NOT NULL,
+  `invoice_number` int(11) NOT NULL,
+  `date_created` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `members`
 --
 
 CREATE TABLE `members` (
@@ -38,10 +51,10 @@ CREATE TABLE `members` (
   `address` text NOT NULL,
   `email` varchar(100) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `members`
+-- Volcado de datos para la tabla `members`
 --
 
 INSERT INTO `members` (`id`, `member_id`, `firstname`, `middlename`, `lastname`, `gender`, `contact`, `address`, `email`, `date_created`) VALUES
@@ -86,11 +99,10 @@ INSERT INTO `members` (`id`, `member_id`, `firstname`, `middlename`, `lastname`,
 (39, 10000039, 'Melina', 'R.', 'Ponce', 'Female', '+54911-2345-6789', 'Tierra del Fuego 3636, Moreno', 'melina.ponce@example.com', '2022-02-23 18:12:12'),
 (40, 10000040, 'Gabriel', 'L.', 'Cuevas', 'Male', '+549381-7654-3210', 'Entre Ríos 3737, San Martín', 'gabriel.cuevas@example.com', '2022-02-24 19:45:45');
 
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `packages`
+-- Estructura de tabla para la tabla `packages`
 --
 
 CREATE TABLE `packages` (
@@ -98,10 +110,10 @@ CREATE TABLE `packages` (
   `package` varchar(200) NOT NULL,
   `description` text NOT NULL,
   `amount` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `packages`
+-- Volcado de datos para la tabla `packages`
 --
 
 INSERT INTO `packages` (`id`, `package`, `description`, `amount`) VALUES
@@ -114,7 +126,7 @@ INSERT INTO `packages` (`id`, `package`, `description`, `amount`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payments`
+-- Estructura de tabla para la tabla `payments`
 --
 
 CREATE TABLE `payments` (
@@ -124,10 +136,10 @@ CREATE TABLE `payments` (
   `remarks` text NOT NULL,
   `type` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=registration, 2= monthly payment',
   `date_created` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `payments`
+-- Volcado de datos para la tabla `payments`
 --
 
 INSERT INTO `payments` (`id`, `registration_id`, `amount`, `remarks`, `type`, `date_created`) VALUES
@@ -137,31 +149,30 @@ INSERT INTO `payments` (`id`, `registration_id`, `amount`, `remarks`, `type`, `d
 -- --------------------------------------------------------
 
 --
--- Table structure for table `plans`
+-- Estructura de tabla para la tabla `plans`
 --
 
 CREATE TABLE `plans` (
   `id` int(30) NOT NULL,
   `plan` int(30) NOT NULL,
   `amount` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `plans`
+-- Volcado de datos para la tabla `plans`
 --
 
 INSERT INTO `plans` (`id`, `plan`, `amount`) VALUES
-(1, 1, 1500),  -- Plan básico de 1 mes
-(2, 3, 4000),  -- Plan intermedio de 3 meses
-(3, 6, 7000),  -- Plan avanzado de 6 meses
-(4, 12, 12000), -- Plan completo de 12 meses
-(5, 24, 20000); -- Plan premium de 24 meses
-
+(1, 1, 1500),
+(2, 3, 4000),
+(3, 6, 7000),
+(4, 12, 12000),
+(5, 24, 20000);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `registration_info`
+-- Estructura de tabla para la tabla `registration_info`
 --
 
 CREATE TABLE `registration_info` (
@@ -174,10 +185,10 @@ CREATE TABLE `registration_info` (
   `trainer_id` tinyint(30) NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0=Inactive, 1= Active',
   `date_created` date DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `registration_info`
+-- Volcado de datos para la tabla `registration_info`
 --
 
 INSERT INTO `registration_info` (`id`, `member_id`, `plan_id`, `package_id`, `start_date`, `end_date`, `trainer_id`, `status`, `date_created`) VALUES
@@ -189,7 +200,7 @@ INSERT INTO `registration_info` (`id`, `member_id`, `plan_id`, `package_id`, `st
 -- --------------------------------------------------------
 
 --
--- Table structure for table `schedules`
+-- Estructura de tabla para la tabla `schedules`
 --
 
 CREATE TABLE `schedules` (
@@ -200,12 +211,12 @@ CREATE TABLE `schedules` (
   `date_to` date NOT NULL,
   `time_from` time NOT NULL,
   `time_to` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `trainers`
+-- Estructura de tabla para la tabla `trainers`
 --
 
 CREATE TABLE `trainers` (
@@ -214,10 +225,10 @@ CREATE TABLE `trainers` (
   `contact` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `rate` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `trainers`
+-- Volcado de datos para la tabla `trainers`
 --
 
 INSERT INTO `trainers` (`id`, `name`, `contact`, `email`, `rate`) VALUES
@@ -226,11 +237,10 @@ INSERT INTO `trainers` (`id`, `name`, `contact`, `email`, `rate`) VALUES
 (3, 'Carlos Fernández', '+549223-4567-8901', 'carlos.fernandez@ejemplo.com', 5500),
 (4, 'Ana González', '+549351-2345-6789', 'ana.gonzalez@ejemplo.com', 4800);
 
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Estructura de tabla para la tabla `users`
 --
 
 CREATE TABLE `users` (
@@ -239,115 +249,115 @@ CREATE TABLE `users` (
   `username` varchar(200) NOT NULL,
   `password` text NOT NULL,
   `type` tinyint(1) NOT NULL DEFAULT 3 COMMENT '1=Admin,2=Staff, 3= subscriber'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `password`, `type`) VALUES
 (1, 'Administrador', 'admin', '0192023a7bbd73250516f069df18b500', 1);
 
 --
--- Indexes for dumped tables
+-- Índices para tablas volcadas
 --
 
 --
--- Indexes for table `members`
+-- Indices de la tabla `members`
 --
 ALTER TABLE `members`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `packages`
+-- Indices de la tabla `packages`
 --
 ALTER TABLE `packages`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `payments`
+-- Indices de la tabla `payments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `plans`
+-- Indices de la tabla `plans`
 --
 ALTER TABLE `plans`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `registration_info`
+-- Indices de la tabla `registration_info`
 --
 ALTER TABLE `registration_info`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `schedules`
+-- Indices de la tabla `schedules`
 --
 ALTER TABLE `schedules`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `trainers`
+-- Indices de la tabla `trainers`
 --
 ALTER TABLE `trainers`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indices de la tabla `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT for table `members`
+-- AUTO_INCREMENT de la tabla `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
--- AUTO_INCREMENT for table `packages`
+-- AUTO_INCREMENT de la tabla `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `payments`
+-- AUTO_INCREMENT de la tabla `payments`
 --
 ALTER TABLE `payments`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `plans`
+-- AUTO_INCREMENT de la tabla `plans`
 --
 ALTER TABLE `plans`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `registration_info`
+-- AUTO_INCREMENT de la tabla `registration_info`
 --
 ALTER TABLE `registration_info`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `schedules`
+-- AUTO_INCREMENT de la tabla `schedules`
 --
 ALTER TABLE `schedules`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `trainers`
+-- AUTO_INCREMENT de la tabla `trainers`
 --
 ALTER TABLE `trainers`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
