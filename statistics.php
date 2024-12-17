@@ -74,11 +74,29 @@ $conn->close();
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 </head>
 
+
 <body>
 
-  <canvas id="myChart1"></canvas>
-  <canvas id="myChart2"></canvas>
-  <canvas id="myChart3"></canvas> <!-- Nuevo gráfico para ingresos totales por mes -->
+<div class="container mt-4">
+  <div class="row">
+    <!-- Gráfico 1: Monto por Transacción -->
+    <div class="col-md-12 mb-5"> <!-- Mayor espacio debajo del gráfico 1 -->
+      <canvas id="myChart1"></canvas>
+    </div>
+
+    <!-- Gráfico 2: Ingresos Totales por Fecha -->
+    <div class="col-md-12 mb-5"> <!-- Menor espacio debajo del gráfico 2 -->
+      <canvas id="myChart2"></canvas>
+    </div>
+
+    <!-- Gráfico 3: Ingresos Totales por Mes -->
+    <div class="col-md-12 mb-5"> <!-- Espacio estándar debajo del gráfico 3 -->
+      <canvas id="myChart3"></canvas>
+    </div>
+  </div>
+</div>
+
+
 
   <script>
     // Gráfico 1: Monto por transacción (primer gráfico)
@@ -93,12 +111,18 @@ $conn->close();
         datasets: [{
           label: 'Monto por Transacción',
           data: amounts, // Los montos como datos
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(190, 135, 52, 0.42)',
+          borderColor: 'rgb(63, 60, 25)',
           borderWidth: 1
         }]
       },
       options: {
+        responsive: true,
+        legend: {
+          labels: {
+            fontSize: 22
+          }
+        },
         scales: {
           x: {
             type: 'time', // Escala de tiempo para el eje X
@@ -119,36 +143,45 @@ $conn->close();
 
     const ctx2 = document.getElementById('myChart2').getContext('2d');
     const myChart2 = new Chart(ctx2, {
-      type: 'bar',
+      type: 'bar', // Mantener 'bar' para las barras
       data: {
         labels: dates_total, // Fechas de los pagos
         datasets: [{
           label: 'Ingresos Totales',
           data: amounts_total, // Montos de los pagos
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 2,
-          fill: false, // No rellenar debajo de la línea
+          backgroundColor: 'rgba(52, 116, 190, 0.42)',
+          borderColor: 'rgb(25, 63, 63)',
+          borderWidth: 1,
+          fill: true, // Rellenar bajo las barras
         }]
       },
       options: {
         responsive: true,
+        legend: {
+          labels: {
+            fontSize: 22
+          }
+        },
         scales: {
           x: {
             title: {
               display: true,
               text: 'Fecha'
-            }
+            },
+            type: 'category', // Configurar como categorías para fechas
           },
           y: {
             title: {
               display: true,
               text: 'Monto Total'
             },
-            beginAtZero: true
+            beginAtZero: true,
+            type: 'linear', // Escala continua para mostrar los valores de manera continua
           }
         }
       }
     });
+
 
     // Gráfico 3: Ingresos Totales por Mes (nuevo gráfico)
     const months_total = <?php echo $months_total_json; ?>;
@@ -156,19 +189,25 @@ $conn->close();
 
     const ctx3 = document.getElementById('myChart3').getContext('2d');
     const myChart3 = new Chart(ctx3, {
-      type: 'bar',
+      type: 'bar', // Mantener 'bar' para las barras
       data: {
         labels: months_total, // Meses de los pagos
         datasets: [{
           label: 'Ingresos Totales por Mes',
           data: amounts_month_total, // Montos totales por mes
-          backgroundColor: 'rgba(153, 102, 255, 0.2)',
-          borderColor: 'rgba(153, 102, 255, 1)',
-          borderWidth: 1
+          backgroundColor: 'rgba(52, 190, 98, 0.42)',
+          borderColor: 'rgb(25, 63, 63)',
+          borderWidth: 1,
+          fill: true, // Rellenar bajo las barras
         }]
       },
       options: {
         responsive: true,
+        legend: {
+          labels: {
+            fontSize: 22
+          }
+        },
         scales: {
           x: {
             title: {
@@ -176,7 +215,7 @@ $conn->close();
               text: 'Mes'
             },
             ticks: {
-              callback: function(value, index, values) {
+              callback: function(value) {
                 return value.substr(0, 7); // Mostrar solo año-mes
               }
             }
@@ -186,12 +225,14 @@ $conn->close();
               display: true,
               text: 'Monto Total'
             },
-            beginAtZero: true
+            beginAtZero: true,
+            type: 'linear', // Escala continua para representar el monto
           }
         }
       }
     });
   </script>
+
 
 </body>
 

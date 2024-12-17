@@ -26,7 +26,7 @@
 			<tbody>
 				<?php
  					include 'db_connect.php';
- 					$type = array("","Admin","Staff","Alumnus/Alumna");
+ 					$type = array("","Administrador","Personal","Alumnus/Alumna");
  					$users = $conn->query("SELECT * FROM users order by name asc");
  					$i = 1;
  					while($row= $users->fetch_assoc()):
@@ -96,7 +96,7 @@ $('#new_user').click(function(){
 	uni_modal('Nuevo usuario','manage_user.php')
 })
 $('.edit_user').click(function(){
-	uni_modal('Edit User','manage_user.php?id='+$(this).attr('data-id'))
+	uni_modal('Editar Usuario','manage_user.php?id='+$(this).attr('data-id'))
 })
 $('.delete_user').click(function(){
 		_conf("¿Seguro que quieres eliminar el usuario?","delete_user",[$(this).attr('data-id')])
@@ -118,4 +118,6 @@ $('.delete_user').click(function(){
 			}
 		})
 	}
+  console.log($(this).serialize());
+
 </script>

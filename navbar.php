@@ -17,7 +17,7 @@
 				<a href="index.php?page=plans" class="nav-item nav-plans"><span class='icon-field'><i class="fa fa-th-list"></i></span> Tipos de planes</a>
 				<a href="index.php?page=packages" class="nav-item nav-packages"><span class='icon-field'><i class="fa fa-list"></i></span> Paquetes</a>
 				<a href="index.php?page=trainer" class="nav-item nav-trainer"><span class='icon-field'><i class="fa fa-user"></i></span> Entrenadores</a>
-        <a href="index.php?page=statistics" class="nav-item nav-users"><span class='icon-field'><i class="fa fa-chart-bar"></i></span> Estadísticas</a>
+        <a href="index.php?page=statistics" class="nav-item nav-statistics"><span class='icon-field'><i class="fa fa-chart-bar"></i></span> Estadísticas</a>
 				<a href="index.php?page=users" class="nav-item nav-users"><span class='icon-field'><i class="fa fa-users"></i></span> Usuarios</a>
 			<?php endif; ?>
 		</div>
@@ -30,3 +30,6 @@
 	})
 	$('.nav-<?php echo isset($_GET['page']) ? $_GET['page'] : '' ?>').addClass('active')
 </script>
+
+
+

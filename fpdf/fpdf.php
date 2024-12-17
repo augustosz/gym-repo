@@ -165,6 +165,11 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	$this->PDFVersion = '1.3';
 }
 
+// Inserta una imagen de fondo
+function BackgroundImage($file) {
+  $this->Image($file, 0, 0, $this->GetPageWidth(), $this->GetPageHeight());
+}
+
 function SetMargins($left, $top, $right=null)
 {
 	// Set left, top and right margins

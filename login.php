@@ -114,6 +114,7 @@ ob_end_flush();
 	<main id="main" class="bg-dark d-flex justify-content-center align-items-center vh-100">
 
 		<div class="text-left text-white py-5">
+      
 			<h1 class="py-4" id="titulo">GYM Software</h1>
 
 			<div class="card col-lg-7 col-md-7 col-9 mx-auto py-3 shadow-lg">
