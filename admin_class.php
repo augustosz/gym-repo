@@ -283,39 +283,45 @@ Class Action {
 	function save_member(){
 		extract($_POST);
 		$data = '';
-		foreach($_POST as $k=> $v){
-			if(!empty($v)){
-				if(!in_array($k,array('id','plan_id','package_id','trainee_id'))){
-					if(empty($data))
-					$data .= " $k='{$v}' ";
-					else
-					$data .= ", $k='{$v}' ";
+		foreach($_POST as $k => $v) {
+			if (!empty($v)) {
+				if (!in_array($k, array('id', 'plan_id', 'package_id', 'trainer_id'))) {
+					if (empty($data)) 
+						$data .= " $k='{$v}' ";
+					else 
+						$data .= ", $k='{$v}' ";
 				}
 			}
 		}
-			if(empty($member_id)){
-				$i = 1;
-				while($i == 1){
-					$rand = mt_rand(1,99999999);
-					$rand =sprintf("%'08d",$rand);
-					$chk = $this->db->query("SELECT * FROM members where member_id = '$rand' ")->num_rows;
-					if($chk <= 0){
-						$data .= ", member_id='$rand' ";
-						$i = 0;
-					}
+	
+		// Verificar que los campos plan_id, package_id y trainer_id no estén vacíos
+		if (empty($plan_id) || empty($package_id) || empty($trainer_id)) {
+			return "Los campos Plan, Paquete o Entrenador no pueden estar vacíos.";
+		}
+	
+		if (empty($member_id)) {
+			$i = 1;
+			while ($i == 1) {
+				$rand = mt_rand(1, 99999999);
+				$rand = sprintf("%'08d", $rand);
+				$chk = $this->db->query("SELECT * FROM members where member_id = '$rand' ")->num_rows;
+				if ($chk <= 0) {
+					$data .= ", member_id='$rand' ";
+					$i = 0;
 				}
 			}
-
-		if(empty($id)){
-			if(!empty($member_id)){
+		}
+	
+		if (empty($id)) {
+			if (!empty($member_id)) {
 				$chk = $this->db->query("SELECT * FROM members where member_id = '$member_id' ")->num_rows;
-				if($chk > 0){
+				if ($chk > 0) {
 					return 2;
 					exit;
 				}
 			}
 			$save = $this->db->query("INSERT INTO members set $data ");
-			if($save){
+			if ($save) {
 				$member_id = $this->db->insert_id;
 				$data = " member_id ='$member_id' ";
 				$data .= ", plan_id ='$plan_id' ";
@@ -323,22 +329,23 @@ Class Action {
 				$data .= ", trainer_id ='$trainer_id' ";
 				$data .= ", start_date ='".date("Y-m-d")."' ";
 				$plan = $this->db->query("SELECT * FROM plans where id = $plan_id")->fetch_array()['plan'];
-				$data .= ", end_date ='".date("Y-m-d",strtotime(date('Y-m-d').' +'.$plan.' months'))."' ";
+				$data .= ", end_date ='".date("Y-m-d", strtotime(date('Y-m-d') . ' +'.$plan.' months'))."' ";
 				$save = $this->db->query("INSERT INTO registration_info set $data");
-				if(!$save)
+				if (!$save)
 					$this->db->query("DELETE FROM members where id = $member_id");
 			}
-		}else{
-			if(!empty($member_id)){
+		} else {
+			if (!empty($member_id)) {
 				$chk = $this->db->query("SELECT * FROM members where member_id = '$member_id' and id != $id ")->num_rows;
-				if($chk > 0){
+				if ($chk > 0) {
 					return 2;
 					exit;
 				}
 			}
-			$save = $this->db->query("UPDATE members set $data where id=".$id);
+			$save = $this->db->query("UPDATE members set $data where id=" . $id);
 		}
-		if($save)
+	
+		if ($save)
 			return 1;
 	}
 	function delete_member(){

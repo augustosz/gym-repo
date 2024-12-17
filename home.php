@@ -84,7 +84,8 @@
                             </div>
                         </div>
                     </div>	
-
+                    <hr>
+                    <p><a href="assets/Manual_Ayuda/Manual.pdf" class="link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"  target="_blank">Click aqui para visualizar el manual de ayuda</a></p>
                     
                 </div>
             </div>      			

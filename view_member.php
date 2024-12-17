@@ -37,7 +37,7 @@ if(isset($_GET['id'])){
 						$pcount++;
 					?>
 					<tr>
-						<td><?php echo $row['plan'].' mo/s.'?></td>
+						<td><?php echo $row['plan'].' mes/es.'?></td>
 						<td><?php echo $row['package']?></td>
 						<td><?php echo date("M d,Y",strtotime($row['start_date'])) ?></td>
 						<td><?php echo date("M d,Y",strtotime($row['end_date'])) ?></td>
