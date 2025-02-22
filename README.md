@@ -1,4 +1,5 @@
-# Gym Management System
+# Gym Management System "PULSE GYM"
+![Pantalla de inicio](2025-02-21-213928_1920x1080_scrot.png)
 
 ## Descripción del Sistema
 
@@ -30,7 +31,6 @@ Este sistema está diseñado para la administración eficiente de un gimnasio, p
 
 ## Instalación
 
-![Pantalla de inicio](2025-02-21-213928_1920x1080_scrot.png)
 Para ejecutar este sistema, se requieren los siguientes recursos:
 - **Lenguaje de programación:** PHP
 - **Motor de base de datos:** MySQL
